@@ -1,8 +1,6 @@
-
-
 from aws_cdk import (
-    aws_apigateway as apigateway,
-    aws_lambda as _lambda,
+    aws_apigateway,
+    aws_lambda,
     Stack,
     core
 )
@@ -10,11 +8,11 @@ from constructs import Construct
 
 class CognitoProtectedApiGatewayStack(Stack):
 
-    def __init__(self, scope: Construct, construct_id: str, api_service_lambda: _lambda.IFunction, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, api_service_lambda: aws_lambda.IFunction, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         # API Gateway Rest API
-        self.api_gateway_rest_api = apigateway.RestApi(self, "ApiGatewayRestApi",
+        self.api_gateway_rest_api = aws_apigateway.RestApi(self, "ApiGatewayRestApi",
             rest_api_name="MyApiGateway"
         )
 
@@ -23,16 +21,16 @@ class CognitoProtectedApiGatewayStack(Stack):
 
         # API Gateway Method
         self.api_gateway_method = self.api_gateway_resource.add_method("ANY",
-            apigateway.LambdaIntegration(api_service_lambda),
-            authorization_type=apigateway.AuthorizationType.CUSTOM,
-            authorizer=apigateway.RequestAuthorizer(self, "ApiGatewayAuthorizer",
-                handler=_lambda.Function.from_function_arn(self, "CustomAuthLambdaFunction", function_arn="arn:aws:lambda:region:account-id:function:CustomAuthLambdaFunction"),
-                identity_sources=[apigateway.IdentitySource.header("Authorization")]
+            aws_apigateway.LambdaIntegration(api_service_lambda),
+            authorization_type=aws_apigateway.AuthorizationType.CUSTOM,
+            authorizer=aws_apigateway.RequestAuthorizer(self, "ApiGatewayAuthorizer",
+                handler=aws_lambda.Function.from_function_arn(self, "CustomAuthLambdaFunction", function_arn="arn:aws:lambda:region:account-id:function:CustomAuthLambdaFunction"),
+                identity_sources=[aws_apigateway.IdentitySource.header("Authorization")]
             )
         )
 
         # API Gateway Deployment
-        self.api_gateway_deployment = apigateway.Deployment(self, "ApiGatewayDeploymentProtected",
+        self.api_gateway_deployment = aws_apigateway.Deployment(self, "ApiGatewayDeploymentProtected",
             api=self.api_gateway_rest_api,
             description="protected api",
             stage_name="dev"
