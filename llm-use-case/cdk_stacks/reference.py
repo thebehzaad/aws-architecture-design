@@ -1,40 +1,19 @@
 from aws_cdk import (
-    # Duration,
-    Stack,
-    # aws_sqs as sqs,
-)
-from constructs import Construct
-
-class LlmUseCaseStack(Stack):
-
-    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
-        super().__init__(scope, construct_id, **kwargs)
-
-        # The code that defines your stack goes here
-
-        # example resource
-        # queue = sqs.Queue(
-        #     self, "LlmUseCaseQueue",
-        #     visibility_timeout=Duration.seconds(300),
-        # )
-
-
-
-
-
-from aws_cdk import (
   aws_cognito as cognito,
   aws_iam as iam,
   aws_lambda as _lambda,
   aws_apigateway as apigateway,
   aws_dynamodb as dynamodb,
+  Stack,
   core
 )
 
-class CognitoApiGatewayStack(core.Stack):
+from constructs import Construct
 
-  def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
-    super().__init__(scope, id, **kwargs)
+class ReferenceStack(Stack):
+
+  def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+    super().__init__(scope, construct_id, **kwargs)
 
     # Cognito User Pool
     user_pool = cognito.UserPool(self, "CognitoUserPool",
