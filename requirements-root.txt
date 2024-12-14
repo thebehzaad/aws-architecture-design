@@ -1,0 +1,8 @@
+numpy==2.2.0
+pandas==2.2.3
+scikit-learn==1.6.0
+fastapi==0.115.6
+uvicorn==0.32.1
+ipykernel==6.29.5
+jupyter==1.1.1
+

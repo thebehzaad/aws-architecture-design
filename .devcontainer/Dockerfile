@@ -38,8 +38,8 @@ RUN npm install -g aws-cdk
 
 
 # Installing packages
-# RUN mkdir -p /home/md-user/wrkdir
-# COPY ./requirements-dev.txt /home/md-user/wrkdir
-# RUN python3 -m pip install -r /home/md-user/wrkdir/requirements-dev.txt
+RUN mkdir -p /home/b-user/wrkdir
+COPY ./requirements-root.txt /home/b-user/wrkdir
+RUN python3 -m pip install -r /home/b-user/wrkdir/requirements-root.txt
 
 
